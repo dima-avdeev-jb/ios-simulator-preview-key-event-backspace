@@ -1,41 +1,55 @@
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
-    MaterialTheme {
-        var greetingText by remember { mutableStateOf("Hello, World!") }
-        var showImage by remember { mutableStateOf(false) }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = {
-                greetingText = "Hello, ${getPlatformName()}"
-                showImage = !showImage
-            }) {
-                Text(greetingText)
-            }
-            AnimatedVisibility(showImage) {
-                Image(
-                    painterResource("compose-multiplatform.xml"),
-                    contentDescription = "Compose Multiplatform icon"
-                )
-            }
-        }
-    }
-}
+    var text by remember { mutableStateOf("Press backspace or space") }
+    var backSpaceCounter by remember { mutableStateOf(0) }
+    var spaceCounter by remember { mutableStateOf(0) }
 
-expect fun getPlatformName(): String
+    Column {
+        BasicTextField(
+            modifier = Modifier
+                .padding(8.dp)
+                .border(1.dp, Color.Blue)
+                .fillMaxWidth()
+                .onPreviewKeyEvent { event ->
+                    when (event.key) {
+                        Key.Backspace -> {
+                            backSpaceCounter++
+                            true
+                        }
+
+                        Key.Spacebar -> {
+                            spaceCounter++
+                            true
+                        }
+
+                        else -> false
+                    }
+                },
+            value = text,
+            onValueChange = {
+                text = it
+            }
+        )
+        Text("Backspace pressed $backSpaceCounter times")
+        Text("Space pressed $spaceCounter times")
+    }
+
+}
