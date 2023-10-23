@@ -22,13 +22,11 @@ fun App() {
             modifier = Modifier
                 .fillMaxWidth()
                 .onPreviewKeyEvent { event ->
-                    when (event.key) {
-                        Key.Backspace -> {
-                            backSpaceCounter++
-                            true
-                        }
-
-                        else -> false
+                    if (event.key == Key.Backspace) {
+                        backSpaceCounter++
+                        true
+                    } else {
+                        false
                     }
                 },
             value = text,
