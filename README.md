@@ -1,3 +1,3 @@
-Backspace key handled in Modifier `.onPreviewKeyEvent { event ->`
+Backspace key handled in Modifier `.onPreviewKeyEvent { event ->`.
 
-Answer to question in Issue https://github.com/JetBrains/compose-multiplatform/issues/3242
+Handled successfully with physical keyboard on simulator, but not handled with on-screen keyboard.
